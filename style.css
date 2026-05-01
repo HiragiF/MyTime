@@ -1,0 +1,116 @@
+:root {
+    --primary: #2c3e50;
+    --accent: #3498db;
+    --highlight: #fff3cd;
+    --text: #333;
+}
+
+body {
+    font-family: -apple-system, sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+header {
+    background: var(--primary);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+h1 { margin: 0; font-size: 1.2rem; }
+#current-time { font-size: 0.8rem; opacity: 0.8; }
+
+main { padding: 8px; }
+
+/* スマホ最適化の時間割 */
+.table-container {
+    width: 100%;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed; /* 列の幅を固定 */
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #eee;
+    padding: 4px;
+    text-align: center;
+    font-size: 0.7rem;
+}
+
+th { background: #f8f9fa; height: 30px; }
+td { height: 75px; vertical-align: middle; }
+
+/* 現在の時限のハイライト */
+.current-period {
+    background-color: var(--highlight) !important;
+}
+
+.cell-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+}
+
+.moodle-link {
+    display: inline-block;
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.6rem;
+    margin-top: 4px;
+}
+
+/* 課題・メモエリア */
+.assignment-section {
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 0.9rem;
+    resize: none;
+}
+
+.image-upload-wrapper { margin-top: 10px; }
+#image-preview img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.btn-secondary, .btn-moodle {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: var(--accent);
+    color: white;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.btn-moodle { background: #e67e22; margin-top: 15px; }
