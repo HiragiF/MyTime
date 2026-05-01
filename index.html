@@ -2,61 +2,60 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Physics Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My University Life</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
+        <div id="clock">00:00:00</div>
         <h1>Physics Schedule</h1>
-        <div id="current-time"></div>
     </header>
 
     <main>
-        <div class="table-container">
-            <table id="timetable">
-                <thead>
-                    <tr>
-                        <th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th>
-                    </tr>
-                </thead>
-                <tbody id="timetable-body">
-                    </tbody>
-            </table>
-        </div>
+        <table id="timetable">
+            <thead>
+                <tr>
+                    <th>時限</th>
+                    <th>月</th>
+                    <th>火</th>
+                    <th>水</th>
+                    <th>木</th>
+                    <th>金</th>
+                </tr>
+            </thead>
+            <tbody id="timetable-body">
+                <!-- script.jsで自動生成されます -->
+            </tbody>
+        </table>
+    </main>
 
-        <section class="assignment-section">
-            <h3>課題・メモ (画像対応)</h3>
+    <!-- ポップアップ（モーダル） -->
+    <div id="modal-overlay" class="hidden" onclick="closeModal()">
+        <div id="edit-modal" onclick="event.stopPropagation()">
+            <h3>講義情報の編集</h3>
             <div class="input-group">
-                <textarea id="quick-memo" placeholder="課題や締切をメモ..."></textarea>
-                <div class="image-upload-wrapper">
-                    <input type="file" id="image-input" accept="image/*" hidden>
-                    <button type="button" onclick="document.getElementById('image-input').click()" class="btn-secondary">画像を添付</button>
-                    <div id="image-preview"></div>
-                </div>
+                <input type="text" id="input-name" placeholder="講義名">
+                <input type="text" id="input-room" placeholder="教室">
+                <input type="text" id="input-moodle" placeholder="Moodle ID">
+                <textarea id="input-note" placeholder="メモ・板書内容など"></textarea>
             </div>
-        </section>
-        
-        <section class="link-section">
-            <button onclick="location.href='https://moodle.toho-u.ac.jp/my/'" class="btn-moodle">Moodle全体を開く</button>
-        </section>
-        <!-- ポップアップ（モーダル） -->
-<div id="modal-overlay" class="hidden">
-    <div id="edit-modal">
-        <h3>授業情報の編集</h3>
-        <input type="text" id="input-name" placeholder="授業名">
-        <input type="text" id="input-room" placeholder="教室番号">
-        <input type="number" id="input-moodle" placeholder="MoodleコースID">
-        <textarea id="input-note" placeholder="備考・詳細"></textarea>
-        
-        <div class="modal-buttons">
-            <button class="btn-save" onclick="saveCell()">保存</button>
-            <button class="btn-cancel" onclick="closeModal()">キャンセル</button>
+
+            <!-- カメラ機能セクション -->
+            <div class="camera-section">
+                <button type="button" class="btn-camera" onclick="startCamera()">📷 カメラ起動</button>
+                <video id="camera-preview" autoplay playsinline class="hidden"></video>
+                <button type="button" id="snap-btn" class="hidden" onclick="takePhoto()">🔴 撮影</button>
+                <canvas id="photo-canvas" style="display:none;"></canvas>
+                <img id="photo-preview" src="" class="hidden">
+            </div>
+
+            <div class="modal-buttons">
+                <button onclick="saveCell()" class="btn-save">保存</button>
+                <button onclick="closeModal()" class="btn-cancel">キャンセル</button>
+            </div>
         </div>
     </div>
-</div>
-    </main>
 
     <script src="script.js"></script>
 </body>
