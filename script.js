@@ -60,20 +60,25 @@ function updateRealTime() {
 }
 
 // タブ切り替え
-function switchTab(tabId) {
-    // 全コンテンツを隠す
+// script.js の switchTab 関数を修正
+function switchTab(tabId, index) {
+    // コンテンツの表示切り替え
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.add('hidden');
     });
-    // 全ボタンからactiveを外す
+    document.getElementById(tabId).classList.remove('hidden');
+
+    // ボタンのactiveクラス切り替え
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    
-    // 選んだタブを表示
-    document.getElementById(tabId).classList.remove('hidden');
-    // ボタンをアクティブにする
-    event.currentTarget.classList.add('active');
+    // クリックされたボタンをアクティブに（event.currentTargetが使えない場合に備え、indexで指定）
+    document.querySelectorAll('.tab-btn')[index].classList.add('active');
+
+    // ライン（インジケーター）を移動させる
+    const indicator = document.getElementById('tab-indicator');
+    const moveX = index * 100; // インデックスに応じて0%, 100%移動
+    indicator.style.transform = `translateX(${moveX}%)`;
 }
 
 // 提出物管理（簡易版）

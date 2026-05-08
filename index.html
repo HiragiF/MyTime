@@ -48,6 +48,15 @@
             </div>
         </section>
     </main>
+    <nav class="tab-menu">
+        <button class="tab-btn active" onclick="switchTab('timetable-section', 0)">
+            <span>時間割</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('task-section', 1)">
+            <span>提出物</span>
+        </button>
+        <div id="tab-indicator"></div>
+    </nav>
 
     <div id="modal-overlay" class="hidden" onclick="closeModal()">
         <div id="edit-modal" onclick="event.stopPropagation()">
