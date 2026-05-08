@@ -4,8 +4,9 @@ let stream = null;
 
 // ページ起動時の処理
 window.onload = () => {
-    createTimetable();
-    loadAllData();
+    createTimetable(); // テーブルを作る
+    loadAllData();     // 【ここ重要！】保存された時間割を読み込む
+    loadTasks();       // 【ここ重要！】保存された提出物を読み込む
     setInterval(updateRealTime, 1000);
     updateRealTime();
 };
@@ -103,18 +104,16 @@ function saveTasks() {
     localStorage.setItem('physicsTasks', JSON.stringify(tasks));
 }
 
-// ページ読み込み時にタスクも復元するように window.onload を更新
-const originalOnload = window.onload;
-window.onload = () => {
-    originalOnload();
+function loadTasks() {
     const savedTasks = JSON.parse(localStorage.getItem('physicsTasks') || '[]');
     const taskList = document.getElementById('task-list');
+    taskList.innerHTML = ""; // 重複を防ぐために一旦空にする
     savedTasks.forEach(task => {
         const li = document.createElement('li');
         li.innerHTML = `${task} <button onclick="this.parentElement.remove(); saveTasks()">消去</button>`;
         taskList.appendChild(li);
     });
-};
+}
 
 // ポップアップ操作
 function openModal(id) {
