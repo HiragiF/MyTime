@@ -29,10 +29,42 @@ function createTimetable() {
         tr.innerHTML = `<td>${p.id}<br><small>${p.start}</small></td>`;
         days.forEach(d => {
             // idにカンマが含まれるとエラーになりやすいため「-」などに変えるのがコツです
-            tr.innerHTML += `<td id="${d}-${p.id}" onclick="openModal('${d}-${p.id}')"></td>`;
+            tr.innerHTML += `<td id="${d}-${p.id}" onclick="handleCellClick('${d}-${p.id}')"></td>`;
         });
         tbody.appendChild(tr);
     });
+}
+
+function handleCellClick(id) {
+    if (isEditMode) {
+        openModal(id); // 編集モードなら時間割編集
+    } else {
+        // 閲覧モードなら提出物追加（まだ関数を作っていない場合は、一旦アラートなどでテスト）
+        alert("閲覧モードです。ここに提出物追加機能を入れます！");
+        // openTaskModal(id); // 後でここを有効にする
+    }
+}
+// モード切替
+let isEditMode = false;
+// パスデータを定数として定義
+const PATH_EYE = "M0 10Q10 0 20 10 10 20 0 10m6 0a1 1 0 008 0A1 1 0 006 10";
+const PATH_PEN = "M15 2M2 14 1 19 6 18 2 14M2 14 15 2 19 6 6 18M3 15 16 3M5 17 18 5M3.5 18.5 1.5 16.5";
+
+function toggleEditMode() {
+    isEditMode = !isEditMode;
+    const fab = document.getElementById('mode-toggle-fab');
+    const path = document.getElementById('fab-path');
+    const table = document.getElementById('timetable');
+    
+    if (isEditMode) {
+        fab.classList.add('active');
+        table.classList.add('edit-mode');
+        path.setAttribute('d', PATH_PEN); // ペンに書き換え
+    } else {
+        fab.classList.remove('active');
+        table.classList.remove('edit-mode');
+        path.setAttribute('d', PATH_EYE); // 目に書き換え
+    }
 }
 
 // 時計と時限ハイライト
