@@ -14,19 +14,21 @@ window.onload = () => {
 function createTimetable() {
     const tbody = document.getElementById('timetable-body');
     const periods = [
-        { id: "1,2", start: "09:00", end: "10:50" },
-        { id: "3,4", start: "11:00", end: "12:50" },
-        { id: "昼休み", start: "13:00", end: "13:50" },
-        { id: "6,7", start: "14:00", end: "15:50" },
-        { id: "8,9", start: "16:00", end: "17:50" }
+        { id: "1-2", start: "09:00", end: "10:50", timeId: "p1" },
+        { id: "3-4", start: "11:00", end: "12:50", timeId: "p2" },
+        { id: "昼", start: "13:00", end: "13:50", timeId: "p3" },
+        { id: "6-7", start: "14:00", end: "15:50", timeId: "p4" },
+        { id: "8-9", start: "16:00", end: "17:50", timeId: "p5" }
     ];
 
     periods.forEach(p => {
         const tr = document.createElement('tr');
-        tr.id = `row-period-${p.id}`;
+        // idを判定しやすいように一新します
+        tr.id = `row-${p.timeId}`;
         tr.innerHTML = `<td>${p.id}<br><small>${p.start}</small></td>`;
         days.forEach(d => {
-            tr.innerHTML += `<td id="${d}${p.id}" onclick="openModal('${d}${p.id}')"></td>`;
+            // idにカンマが含まれるとエラーになりやすいため「-」などに変えるのがコツです
+            tr.innerHTML += `<td id="${d}-${p.id}" onclick="openModal('${d}-${p.id}')"></td>`;
         });
         tbody.appendChild(tr);
     });
@@ -35,19 +37,24 @@ function createTimetable() {
 // 時計と時限ハイライト
 function updateRealTime() {
     const now = new Date();
-    document.getElementById('clock').innerText = now.toLocaleTimeString();
+    document.getElementById('clock').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
 
     const time = now.getHours() * 100 + now.getMinutes();
-    let currentP = 0;
-    if (time >= 850 && time < 1030) currentP = 1;
-    else if (time >= 1040 && time < 1220) currentP = 2;
-    else if (time >= 1310 && time < 1450) currentP = 3;
-    else if (time >= 1500 && time < 1640) currentP = 4;
-    else if (time >= 1650 && time < 1830) currentP = 5;
+    let currentId = "";
 
+    // あなたの新しい時間割に合わせて判定時間を修正
+    if (time >= 900 && time < 1050) currentId = "p1";
+    else if (time >= 1100 && time < 1250) currentId = "p2";
+    else if (time >= 1300 && time < 1350) currentId = "p3";
+    else if (time >= 1400 && time < 1550) currentId = "p4";
+    else if (time >= 1600 && time < 1750) currentId = "p5";
+
+    // 一旦すべてのハイライトを消す
     document.querySelectorAll('tr').forEach(tr => tr.classList.remove('current-period'));
-    if (currentP > 0) {
-        const row = document.getElementById(`row-period-${currentP}`);
+
+    // 今の時間の行を光らせる
+    if (currentId !== "") {
+        const row = document.getElementById(`row-${currentId}`);
         if (row) row.classList.add('current-period');
     }
 }
