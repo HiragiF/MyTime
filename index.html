@@ -7,30 +7,48 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav class="tab-menu">
+    <button class="tab-btn active" onclick="switchTab('timetable-section')">時間割</button>
+    <button class="tab-btn" onclick="switchTab('task-section')">提出物</button>
+    </nav>
     <header>
         <div id="clock">00:00:00</div>
         <h1>時間割</h1>
     </header>
 
     <main>
-        <table id="timetable">
-            <thead>
-                <tr>
-                    <th>時限</th>
-                    <th>月</th>
-                    <th>火</th>
-                    <th>水</th>
-                    <th>木</th>
-                    <th>金</th>
-                </tr>
-            </thead>
-            <tbody id="timetable-body">
-                <!-- script.jsで自動生成されます -->
-            </tbody>
-        </table>
+        <!-- 時間割 -->
+        <section id="timetable-section" class="tab-content">
+            <table id="timetable">
+                <thead>
+                    <tr>
+                        <th>時限</th>
+                        <th>月</th>
+                        <th>火</th>
+                        <th>水</th>
+                        <th>木</th>
+                        <th>金</th>
+                    </tr>
+                </thead>
+                <tbody id="timetable-body">
+                    <!-- script.jsで自動生成されます -->
+                </tbody>
+            </table>
+        </section>
+        <!-- 提出物 -->
+        <section id="task-section" class="tab-content hidden">
+            <div class="task-container">
+                <h3>レポート・提出物リスト</h3>
+                <ul id="task-list">
+                </ul>
+                <div class="task-input">
+                    <input type="text" id="new-task" placeholder="課題名・締切など">
+                    <button onclick="addTask()">追加</button>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- ポップアップ（モーダル） -->
     <div id="modal-overlay" class="hidden" onclick="closeModal()">
         <div id="edit-modal" onclick="event.stopPropagation()">
             <h3>講義情報の編集</h3>
@@ -41,7 +59,7 @@
                 <textarea id="input-note" placeholder="メモ・板書内容など"></textarea>
             </div>
 
-            <!-- カメラ機能セクション -->
+            <!-- カメラ機能 -->
             <div class="camera-section">
                 <button type="button" class="btn-camera" onclick="startCamera()">📷 カメラ起動</button>
                 <video id="camera-preview" autoplay playsinline class="hidden"></video>

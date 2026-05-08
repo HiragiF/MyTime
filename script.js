@@ -14,11 +14,11 @@ window.onload = () => {
 function createTimetable() {
     const tbody = document.getElementById('timetable-body');
     const periods = [
-        { id: 1, start: "08:50", end: "10:30" },
-        { id: 2, start: "10:40", end: "12:20" },
-        { id: 3, start: "13:10", end: "14:50" },
-        { id: 4, start: "15:00", end: "16:40" },
-        { id: 5, start: "16:50", end: "18:30" }
+        { id: "1,2", start: "09:00", end: "10:50" },
+        { id: "3,4", start: "11:00", end: "12:50" },
+        { id: "昼休み", start: "13:00", end: "13:50" },
+        { id: "6,7", start: "14:00", end: "15:50" },
+        { id: "8,9", start: "16:00", end: "17:50" }
     ];
 
     periods.forEach(p => {
@@ -51,6 +51,58 @@ function updateRealTime() {
         if (row) row.classList.add('current-period');
     }
 }
+
+// タブ切り替え
+function switchTab(tabId) {
+    // 全コンテンツを隠す
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    // 全ボタンからactiveを外す
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // 選んだタブを表示
+    document.getElementById(tabId).classList.remove('hidden');
+    // ボタンをアクティブにする
+    event.currentTarget.classList.add('active');
+}
+
+// 提出物管理（簡易版）
+function addTask() {
+    const input = document.getElementById('new-task');
+    if (!input.value) return;
+
+    const taskList = document.getElementById('task-list');
+    const li = document.createElement('li');
+    li.innerHTML = `${input.value} <button onclick="this.parentElement.remove(); saveTasks()">消去</button>`;
+    taskList.appendChild(li);
+    
+    input.value = "";
+    saveTasks();
+}
+
+function saveTasks() {
+    const tasks = [];
+    document.querySelectorAll('#task-list li').forEach(li => {
+        tasks.push(li.innerText.replace(' 消去', ''));
+    });
+    localStorage.setItem('physicsTasks', JSON.stringify(tasks));
+}
+
+// ページ読み込み時にタスクも復元するように window.onload を更新
+const originalOnload = window.onload;
+window.onload = () => {
+    originalOnload();
+    const savedTasks = JSON.parse(localStorage.getItem('physicsTasks') || '[]');
+    const taskList = document.getElementById('task-list');
+    savedTasks.forEach(task => {
+        const li = document.createElement('li');
+        li.innerHTML = `${task} <button onclick="this.parentElement.remove(); saveTasks()">消去</button>`;
+        taskList.appendChild(li);
+    });
+};
 
 // ポップアップ操作
 function openModal(id) {
